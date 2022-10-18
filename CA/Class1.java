@@ -5,20 +5,48 @@ public class Class1 {
     private String name;
     private double floatN;
     private int[] arr;
+    private Composition[] compositions;
+    private int compositionSize;
 
-    public Class1(int num, String name, double floatN) {
-        this.num = num;
-        this.name = name;
-        this.floatN = floatN;
+    public Class1(int num, String name, double floatN, int compositionSize) {
+        setNum(num);
+        setName(name);
+        setFloatN(floatN);
+        setCompositionSize(compositionSize);
+    }
+
+    public Composition[] getCompositions() {
+        if (compositions!=null) {
+            Composition[] copyOfCompositions = new Composition[compositionSize];
+            for (int i = 0; i < compositionSize; i++) {
+                if (compositions[i]!=null) {
+                    copyOfCompositions[i] = new Composition(compositions[i].getSize(),true);
+                }else break;
+            }
+            return copyOfCompositions;
+        }else return null;
+    }
+
+    public int getCompositionSize() {
+        return compositionSize;
+    }
+
+    public void setCompositionSize(int compositionSize) {
+        this.compositionSize = compositionSize;
     }
 
     @Override
     public String toString() {
-        return "Class1{" +
+        StringBuilder output = new StringBuilder("Class1\n" +
                 "num=" + num +
-                ", name='" + name + '\'' +
-                ", floatN=" + floatN +
-                '}';
+                ", name=" + name +
+                ", floatN=" + floatN + "\n");
+        if (getCompositions() != null) {
+            for (int i = 0; i < compositionSize ; i++) {
+                if (getCompositions()[i] != null) output.append(getCompositions()[i]).append("\n");
+            }
+        }
+        return output.toString();
     }
 
     public int getNum() {
@@ -93,6 +121,20 @@ public class Class1 {
         }
         else {
             return false;
+        }
+    }
+
+    public void addCompositions(Composition input){
+        if (compositions == null){
+            compositions = new Composition[compositionSize];
+            compositions[0] = new Composition(input.getSize(),true);
+        }else {
+            for (int i = 0; i < compositionSize; i++) {
+                if (compositions[i] == null) {
+                    compositions[i] = new Composition(input.getSize(),true);
+                    break;
+                }
+            }
         }
     }
 }
